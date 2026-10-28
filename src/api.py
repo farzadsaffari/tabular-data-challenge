@@ -19,7 +19,6 @@ def load_artifacts():
 
 
 class PredictRequest(BaseModel):
-    # TODO: replace with a typed model per field. For now records are raw dicts
     # shaped like the CSV rows, with timestamp as "YYYY-MM-DD HH:MM:SS".
     records: list[dict]
 
