@@ -23,10 +23,10 @@ jobs:
           pip install -r requirements.txt
 
       - name: Train the classifier
-        run: python -m src.train --data data/sample_data.csv
+        run: python -m src.train --data data/train.csv
 
       - name: Build the ad embeddings
-        run: python -m src.embedding --data data/sample_data.csv
+        run: python -m src.embedding --data data/train.csv
 
       - name: Start the API and call it
         run: |
@@ -35,4 +35,4 @@ jobs:
             curl -sf http://127.0.0.1:8000/docs > /dev/null && break
             sleep 1
           done
-          python scripts/call_api.py --data data/sample_data.csv --url http://127.0.0.1:8000
+          python scripts/call_api.py --data data/train.csv --url http://127.0.0.1:8000
