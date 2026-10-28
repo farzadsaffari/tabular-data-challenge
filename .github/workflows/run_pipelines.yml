@@ -1,0 +1,38 @@
+name: run-pipeline
+
+# Runs the whole project on the synthetic sample data:
+# train the classifier, build the ad embeddings, start the API and call both endpoints.
+on:
+  push:
+  workflow_dispatch:   # also allows a manual run from the Actions tab
+
+jobs:
+  run:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+          cache: pip
+
+      - name: Install dependencies
+        run: |
+          pip install torch==2.4.1 --index-url https://download.pytorch.org/whl/cpu
+          pip install -r requirements.txt
+
+      - name: Train the classifier
+        run: python -m src.train --data data/sample_data.csv
+
+      - name: Build the ad embeddings
+        run: python -m src.embedding --data data/sample_data.csv
+
+      - name: Start the API and call it
+        run: |
+          uvicorn src.api:app --port 8000 &
+          for i in $(seq 1 60); do
+            curl -sf http://127.0.0.1:8000/docs > /dev/null && break
+            sleep 1
+          done
+          python scripts/call_api.py --data data/sample_data.csv --url http://127.0.0.1:8000
