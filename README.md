@@ -17,7 +17,7 @@ The three core objectives of the challenge:
 Repository structure:
 
 ```
-wpp-challenge/
+tabular-data-challenge/
 ├── .github/workflows/run_pipelines.yml   # runs everything on every push
 ├── data/train.csv                        # SYNTHETIC sample data (see below)
 ├── scripts/call_api.py                   # calls both API endpoints and prints the answers
