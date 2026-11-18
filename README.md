@@ -1,4 +1,4 @@
-# WPP Open Intelligence: Data Science Challenge
+# Data Science Challenge
 
 Click prediction, ad similarity search and a small API on top of both, built on
 advertising impression data.
